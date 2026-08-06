@@ -74,11 +74,11 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
     </div>
     <div class="info-card">
         <h3>GÜNÜN VAZİFELİLERİ</h3>
-        <div class="info-row"><span class="info-label">İMAM</span><span class="info-value" id="infoImam">-</span></div>
-        <div class="info-row"><span class="info-label">MÜEZZİN</span><span class="info-value" id="infoMuezzin">-</span></div>
-        <div class="info-row"><span class="info-label">ÇAYCI</span><span class="info-value" id="infoCay">-</span></div>
+        <div class="info-row"><span class="info-label">İMAMIMIZ</span><span class="info-value" id="infoImam">-</span></div>
+        <div class="info-row"><span class="info-label">MÜEZZİNİNİMİZ</span><span class="info-value" id="infoMuezzin">-</span></div>
+        <div class="info-row"><span class="info-label">ÇAYCIMIZ</span><span class="info-value" id="infoCay">-</span></div>
         <div class="info-row"><span class="info-label">GECE NÖBETÇİSİ</span><span class="info-value" id="infoGece">-</span></div>
-        <div class="info-row"><span class="info-label">KURUL KALDIRICI</span><span class="info-value" id="infoNobet">-</span></div>
+        <div class="info-row"><span class="info-label">KURUL KALDIRICISI</span><span class="info-value" id="infoNobet">-</span></div>
         <div class="info-row active"><span class="info-label">ŞU AN</span><span class="info-value" id="infoProgram">-</span></div>
     </div>
 </div>
@@ -103,7 +103,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
 </div></div>
 <div class="screen" id="temizlikScreen"><div class="screen-content">
     <div class="header-bar"><button class="back-btn" onclick="closeScreen('temizlikScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Temizlik Listesi</h2></div>
-    <div class="table-container"><table><thead><tr><th>TEMİZLİK YERİ</th><th>TEMİZLEYEN ADI SOYADI</th><th>SINIFI</th><th>KAT MESULÜ</th></tr></thead><tbody id="temizlikBody"></tbody></table></div>
+    <div class="table-container"><table><thead><tr><th>TEMİZLİK YERİ</th><th>TEMİZLEYEN TALEBE</th><th>SINIFI</th><th>KAT MESULÜ</th></tr></thead><tbody id="temizlikBody"></tbody></table></div>
 </div></div>
 <div class="screen" id="nobetScreen"><div class="screen-content">
     <div class="header-bar"><button class="back-btn" onclick="closeScreen('nobetScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Kurul Kaldırıcıları</h2></div>
@@ -128,10 +128,10 @@ R.split(",").forEach(function(a){var p=a.split("|");rolesData.push({role:p[0],na
 var C2="PAZARTESİ|MEHMET HAMZA EREN|9,SALI|MEHMET TURAN|10,ÇARŞAMBA|İSMAİL ÇOMAK|10,PERŞEMBE|AHMET SELİM ERDEM|10,CUMA|OSMAN KENAN ÇİMENDAĞ|9,AKŞAM HATİM GECELERİ|HİLMİHAN KIRBIYIK - AHMET FURKAN BALARBAN|10,BAŞKAN|ABDULKADİR DÜZGÜN|11";
 var cayData=[];
 C2.split(",").forEach(function(a){var p=a.split("|");cayData.push({gun:p[0],name:p[1],sinif:p[2]});});
-var I="1|SENCER ÇELİKKANAT|11,2|AHMET FATİH ÖLMEZ|12,3|EMİN KEREM AKÇAY|12,4|İBRAHİM YAĞIZ YİĞEN|12,5|MEHMET ENES İNAN|12,6|MEHMET SELİM DEMİRCİ|12,7|MEHMET YILMAZ|12,8|ÖMER YAĞIZ EMSEN|12,9|YUNUS KEREM ÖZDEMİR|12,10|ABDULKADİR DÜZGÜN|11,11|AHMET BEDİRHAN ÖZCAN|11,12|AHMET ENES KURU|11,13|AHMET KEREM BAYRAKTAR|11,14|ARİFHAN İNAN|11,15|HÜSEYİN EMİR AKKOÇ|11,16|İHSAN BEDİR ŞENOL|11,17|İLHAN AHMET ÇAYIR|11,18|KEREM TALHA YILDIRIM|11,19|KEREM YAVUZ YILMAZ|11,20|MEHMET AKİF ÇAKIR|11,21|MEHMET HİLMİ ÇELEN|11,22|MUHAMMED ENSAR AYDIN|11,23|SENCER ÇELİKKANAT|11,24|TEVFİK TUNA ÇAKMAK|11,25|YUSUF GÜLCAN|11,26|AHMET SELİM ERDEM|10,27|EMİN AKİF UYAR|10,28|HİLMİ ENES BAYRAM|10";
+var I="1|SENCER ÇELİKKANAT|11,2|AHMET FATİH ÖLMEZ|12,3|EMİN KEREM AKÇAY|12,4|İBRAHİM YAĞIZ YİĞEN|12,5|MEHMET ENES İNAN|12,6|MEHMET SELİM DEMİRCİ|12,7|MEHMET YILMAZ|12,8|ÖMER YAĞIZ EMSEN|12,9|ABDÜLKADİR DÜZGÜN12,10|YUNUS KEREM ÖZDEMİR|11,11|AHMET BEDİRHAN ÖZCAN|11,12|AHMET ENES KURU|11,13|AHMET KEREM BAYRAKTAR|11,14|ARİFHAN İNAN|11,15|HÜSEYİN EMİR AKKOÇ|11,16|İHSAN BEDİR ŞENOL|11,17|İLHAN AHMET ÇAYIR|11,18|KEREM TALHA YILDIRIM|11,19|KEREM YAVUZ YILMAZ|11,20|MEHMET AKİF ÇAKIR|11,21|MEHMET HİLMİ ÇELEN|11,22|MUHAMMED ENSAR AYDIN|11,23|SENCER ÇELİKKANAT|11,24|TEVFİK TUNA ÇAKMAK|11,25|YUSUF GÜLCAN|11,26|AHMET SELİM ERDEM|10,27|EMİN AKİF UYAR|10,28|HİLMİ ENES BAYRAM|10";
 var imamData=[];
 I.split(",").forEach(function(a){var p=a.split("|");imamData.push({sira:p[0],name:p[1],sinif:p[2]});});
-var M="1|ALİHAN ÖZEN|9,2|AHMET FURKAN BALARBAN|10,3|AHMET SELİM ERDEM|10,4|EMİN AKİF UYAR|10,5|FARUK SELİM ATACAN|10,6|HİLMİ ENES BAYRAM|10,7|HİLMİHAN KIRBIYIK|10,8|MEHMET EMRE OKYAY|10,9|MUHAMMED ENES KINCAK|10,10|MUHİTTİN KILIÇ|10,11|MUSTAFA EMİR BEKİ|10,12|YUSUF KEMAL YETİM|10,13|YUSUF KEREM ERTAŞ|10,14|YUSUF GÜLCAN|11,15|TEVFİK TUNA ÇAKMAK|11,16|SENCER ÇELİKKANAT|11,17|MUHAMMED ENSAR AYDIN|11,18|MEHMET HİLMİ ÇELEN|11,19|MEHMET AKİF ÇAKIR|11,20|KEREM YAVUZ YILMAZ|11,21|KEREM TALHA YILDIRIM|11,22|İLHAN AHMET ÇAYIR|11,23|İHSAN BEDİR ŞENOL|11,24|HÜSEYİN EMİR AKKOÇ|11,25|ARİFHAN İNAN|11,26|AHMET KEREM BAYRAKTAR|11,27|AHMET ENES KURU|11,28|AHMET BEDİRHAN ÖZCAN|11";
+var M="1|ALİHAN ÖZEN|9,2|AHMET FURKAN BALARBAN|10,3|AHMET SELİM ERDEM|10,4|EMİN AKİF UYAR|10,5|FARUK SELİM ATACAN|10,6|HİLMİ ENES BAYRAM|10,7|HİLMİHAN KIRBIYIK|10,8|MEHMET EMRE OKYAY|10,9|MUHİTTİN KILIÇ|10,10|MUHAMMED ENES KINCAK|10,11|MUSTAFA EMİR BEKİ|10,12|YUSUF KEMAL YETİM|10,13|YUSUF KEREM ERTAŞ|10,14|YUSUF GÜLCAN|11,15|TEVFİK TUNA ÇAKMAK|11,16|SENCER ÇELİKKANAT|11,17|MUHAMMED ENSAR AYDIN|11,18|MEHMET HİLMİ ÇELEN|11,19|MEHMET AKİF ÇAKIR|11,20|KEREM YAVUZ YILMAZ|11,21|KEREM TALHA YILDIRIM|11,22|İLHAN AHMET ÇAYIR|11,23|İHSAN BEDİR ŞENOL|11,24|HÜSEYİN EMİR AKKOÇ|11,25|ARİFHAN İNAN|11,26|AHMET KEREM BAYRAKTAR|11,27|AHMET ENES KURU|11,28|AHMET BEDİRHAN ÖZCAN|11";
 var muezzinData=[];
 M.split(",").forEach(function(a){var p=a.split("|");muezzinData.push({sira:p[0],name:p[1],sinif:p[2]});});
 var KT="28.07 SALI,29.07 ÇARŞAMBA,30.07 PERŞEMBE,31.07 CUMA,03.08 PAZARTESİ,04.08 SALI,05.08 ÇARŞAMBA,06.08 PERŞEMBE,07.08 CUMA,10.08 PAZARTESİ,11.08 SALI,12.08 ÇARŞAMBA,13.08 PERŞEMBE,14.08 CUMA,17.08 PAZARTESİ,18.08 SALI,19.08 ÇARŞAMBA,20.08 PERŞEMBE,21.08 CUMA,24.08 PAZARTESİ,25.08 SALI,26.08 ÇARŞAMBA,27.08 PERŞEMBE,28.08 CUMA,31.08 PAZARTESİ,01.09 SALI,02.09 ÇARŞAMBA,03.09 PERŞEMBE".split(",");
