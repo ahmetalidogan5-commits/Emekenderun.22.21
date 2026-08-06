@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Emek Enderun - Günlük Program</title>
+<link rel="icon" type="image/png" href="https://r.resimlink.com/XMru4hv.png">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body { font-family: 'Montserrat', sans-serif; background: linear-gradient(135deg, #ffffff 0%, #e6e9f0 100%); color: #2c3e50; min-height: 100vh; display: flex; flex-direction: column; align-items: center; }
+.container { width: 100%; max-width: 600px; padding: 40px 20px; text-align: center; }
+.profile-section { width: 150px; height: 150px; margin: 0 auto 30px; }
+.profile-img { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 4px solid white; box-shadow: 0 10px 30px rgba(0,0,0,0.08); background-color: #fff; }
+h1 { font-size: 2.2rem; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; }
+.subtitle { font-size: 0.9rem; color: #7f8c8d; margin-bottom: 40px; letter-spacing: 1px; }
+.btn-group { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 25px; }
+.btn-full { grid-column: 1 / -1; }
+.btn { background: white; color: #2c3e50; border: 2px solid #95a5a6; padding: 15px 10px; font-size: 0.95rem; font-weight: 600; border-radius: 50px; cursor: pointer; box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
+.btn:active { transform: scale(0.95); background: #2c3e50; color: white; }
+.info-card { background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); padding: 20px; text-align: left; }
+.info-card h3 { font-size: 1rem; color: #2c3e50; margin-bottom: 15px; text-align: center; letter-spacing: 1px; font-weight: 700; }
+.info-row { display: flex; justify-content: space-between; align-items: center; padding: 10px 0; border-bottom: 1px solid #f0f0f0; font-size: 0.9rem; }
+.info-row:last-child { border-bottom: none; }
+.info-label { font-weight: 700; color: #7f8c8d; }
+.info-value { font-weight: 600; color: #2c3e50; text-align: right; max-width: 60%; }
+.info-row.active { background: #e8f4f8; border-radius: 8px; padding: 10px; border-bottom: none; margin-top: 5px; }
+.info-row.active .info-value { color: #2980b9; }
+.screen { position: fixed; top: 0; left: 0; width: 100%; height: 100vh; height: 100dvh; background: #f4f4f6; z-index: 100; transform: translateY(100%); transition: transform 0.6s ease; overflow-y: auto; -webkit-overflow-scrolling: touch; display: flex; flex-direction: column; align-items: center; }
+.screen.active { transform: translateY(0); }
+.screen-content { width: 100%; padding: 20px; padding-bottom: 100px; display: flex; flex-direction: column; align-items: center; }
+.header-bar { width: 100%; max-width: 1000px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; padding-bottom: 15px; padding-top: 10px; border-bottom: 2px solid #ddd; position: sticky; top: 0; background: #f4f4f6; z-index: 10; }
+.back-btn { background: white; border: 1px solid #ddd; padding: 8px 15px; border-radius: 20px; font-size: 0.9rem; color: #2c3e50; font-weight: 600; cursor: pointer; }
+.live-clock { font-size: 1.1rem; font-weight: 700; background: white; padding: 5px 15px; border-radius: 20px; }
+.table-container { width: 100%; max-width: 1000px; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 20px; }
+table { width: 100%; border-collapse: collapse; text-align: center; }
+th { background: #f8f9fa; color: #7f8c8d; font-weight: 600; padding: 12px 8px; font-size: 0.75rem; border-bottom: 2px solid #eee; }
+td { padding: 10px 8px; border-bottom: 1px solid #f0f0f0; font-size: 0.85rem; }
+tr:last-child td { border-bottom: none; }
+tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #2980b9; }
+.highlight-text { color: #e74c3c; font-weight: 700; }
+.bold-text { font-weight: 700; }
+.group-header { background: #ecf0f1; font-weight: 700; text-align: center; padding: 10px; }
+.today-header { background: #d4e6f1; color: #2980b9; }
+.today-row td { background-color: #e8f4f8; font-weight: 600; color: #2980b9; }
+.split-table { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 1000px; }
+.split-container { flex: 1; min-width: 300px; background: white; border-radius: 16px; box-shadow: 0 10px 30px rgba(0,0,0,0.08); overflow: hidden; margin-bottom: 20px; }
+.split-title { background: #2c3e50; color: white; padding: 10px; text-align: center; font-weight: 700; }
+.version-badge { position: fixed; bottom: 12px; left: 12px; z-index: 50; background: rgba(44,62,80,0.85); color: #fff; font-size: 0.7rem; font-weight: 600; padding: 5px 12px; border-radius: 12px; }
+@media (max-width: 400px) {
+    .btn { font-size: 0.85rem; padding: 12px 8px; }
+}
+@media (max-width: 600px) {
+    h1 { font-size: 1.8rem; }
+    .profile-section { width: 120px; height: 120px; }
+    td, th { padding: 8px 4px; font-size: 0.75rem; }
+    .split-table { flex-direction: column; }
+    .screen-content { padding: 15px; padding-bottom: 80px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+    <div class="profile-section"><img src="https://r.resimlink.com/XMru4hv.png" alt="Logo" class="profile-img"></div>
+    <h1>EMEK ENDERUN</h1>
+    <p class="subtitle">2026-2027</p>
+    <div class="btn-group">
+        <button class="btn btn-full" onclick="openScreen('programScreen')">Günlük Program</button>
+        <button class="btn" onclick="openScreen('yemekScreen')">Yemekçilik Listesi</button>
+        <button class="btn" onclick="openScreen('cayScreen')">Çaycılar Listesi</button>
+        <button class="btn" onclick="openScreen('kiraatScreen')">İmam - Müezzin</button>
+        <button class="btn" onclick="openScreen('temizlikScreen')">Temizlik Listesi</button>
+        <button class="btn" onclick="openScreen('nobetScreen')">Kurul Kaldırıcıları</button>
+        <button class="btn" onclick="openScreen('geceScreen')">Gece Nöbetçileri</button>
+    </div>
+    <div class="info-card">
+        <h3>GÜNÜN VAZİFELİLERİ</h3>
+        <div class="info-row"><span class="info-label">İMAM</span><span class="info-value" id="infoImam">-</span></div>
+        <div class="info-row"><span class="info-label">MÜEZZİN</span><span class="info-value" id="infoMuezzin">-</span></div>
+        <div class="info-row"><span class="info-label">ÇAYCI</span><span class="info-value" id="infoCay">-</span></div>
+        <div class="info-row"><span class="info-label">GECE NÖBETÇİSİ</span><span class="info-value" id="infoGece">-</span></div>
+        <div class="info-row"><span class="info-label">KURUL KALDIRICI</span><span class="info-value" id="infoNobet">-</span></div>
+        <div class="info-row active"><span class="info-label">ŞU AN</span><span class="info-value" id="infoProgram">-</span></div>
+    </div>
+</div>
+<div class="screen" id="programScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('programScreen')">← Geri Dön</button><div class="live-clock" id="clock1">00:00:00</div></div>
+    <div class="table-container"><table><thead><tr><th>BAŞLAMA</th><th>BİTİŞ</th><th>PROGRAM</th></tr></thead><tbody id="scheduleBody"></tbody></table></div>
+</div></div>
+<div class="screen" id="yemekScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('yemekScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">26-27 Yemekçilik</h2></div>
+    <div class="table-container"><table id="yemekTable"></table></div>
+</div></div>
+<div class="screen" id="cayScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('cayScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Çaycılar Listesi</h2></div>
+    <div class="table-container"><table id="cayTable"></table></div>
+</div></div>
+<div class="screen" id="kiraatScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('kiraatScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Kıraat Takip</h2></div>
+    <div class="split-table">
+        <div class="split-container"><div class="split-title">İMAM</div><table><thead><tr><th>SIRA</th><th>ADI SOYADI</th><th>SINIFI</th><th>TARİH</th></tr></thead><tbody id="imamBody"></tbody></table></div>
+        <div class="split-container"><div class="split-title">MÜEZZİN</div><table><thead><tr><th>SIRA</th><th>ADI SOYADI</th><th>SINIFI</th><th>TARİH</th></tr></thead><tbody id="muezzinBody"></tbody></table></div>
+    </div>
+</div></div>
+<div class="screen" id="temizlikScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('temizlikScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Temizlik Listesi</h2></div>
+    <div class="table-container"><table><thead><tr><th>TEMİZLİK YERİ</th><th>TEMİZLEYEN ADI SOYADI</th><th>SINIFI</th><th>KAT MESULÜ</th></tr></thead><tbody id="temizlikBody"></tbody></table></div>
+</div></div>
+<div class="screen" id="nobetScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('nobetScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Kurul Kaldırıcıları</h2></div>
+    <div class="table-container"><table id="nobetTable"></table></div>
+</div></div>
+<div class="screen" id="geceScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('geceScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Gece Nöbetçileri</h2></div>
+    <div class="table-container"><table id="geceTable"></table></div>
+</div></div>
+<div class="version-badge" id="versionBadge">v3.6</div>
+<script>
+var S="04:45|05:00|KALKIŞ VE NAMAZA HAZIRLIK|0,05:00|05:15|SABAH NAMAZI|1,05:15|05:30|HATİM|0,05:30|06:00|VAZİFE|0,06:00|08:00|İSTİRAHAT|0,08:00|08:30|KAHVALTI|0,08:30|08:50|TEMİZLİK|0,08:50|09:00|DAHİLİ DERSE HAZIRLIK|0,09:00|09:50|1. DAHİLİ DERS|2,09:50|10:00|TENEFÜS|0,10:00|10:50|2. DAHİLİ DERS|2,10:50|11:00|TENEFÜS|0,11:00|11:40|OKUL DERSİ 1|0,11:40|11:50|TENEFÜS|0,11:50|12:30|OKUL DERSİ 2|2,12:30|12:40|TENEFÜS|0,12:40|13:20|OKUL DERSİ 3|2,13:20|13:45|ARA VE ÖĞLE NAMAZI|1,13:45|14:30|ÖĞLE YEMEĞİ|0,14:30|15:10|OKUL DERSİ 4|0,15:10|15:20|TENEFÜS|1,15:20|16:00|OKUL DERSİ 5|2,16:00|16:10|TENEFÜS|0,16:10|16:50|OKUL DERSİ 6|1,16:50|17:00|TENEFÜS|0,17:00|17:40|OKUL DERSİ 7|1,17:40|18:00|ARA VE İKİNDİ NAMAZI|0,18:00|18:40|ETÜT 1|0,18:40|19:20|ETÜT 2|0,19:20|20:00|AKŞAM YEMEĞİ|0,20:00|20:50|ETKİNLİK 1|0,20:50|21:00|TENEFÜS|0,21:00|21:15|AKŞAM NAMAZI|0,21:15|22:15|ETKİNLİK 2|0,22:15|22:30|YATSI NAMAZI|1,23:00|00:00|MECBURİ İSTİRAHAT|1";
+var scheduleData=[];
+S.split(",").forEach(function(a){var p=a.split("|");scheduleData.push({start:p[0],end:p[1],title:p[2],type:["normal","bold","highlight"][Number(p[3])]});});
+var Y="1.GRUP|ALİHAN ÖZEN|MEMHET EMRE ÜLKER|MEHMET HAMZA EREN,2.GRUP|AHMET YASİN ŞAHİN|OSMAN KENAN ÇİMENDAĞ|HİLMİHAN KIRBIYIK,3.GRUP|AHMET FURKAN BALARBAN|AHMET SELİM ERDEM|YUSUF KEMAL YETİM,4.GRUP|İSMAİL ÇOMAK|EYMEN AKİF UYAR|MUHİTTİN KILIÇ,5.GRUP|HİLMİ ENES BAYRAM|MUHAMMED ENES KINCAK|MUSTAFA EMİR BEKİ,6.GRUP|MEHMET EMRE OKYAY|MEHMET TURAN|YUSUF KEREM ERTAŞ,7.GRUP|MUHAMMED ENSAR AYDIN|AHMET BEDİRHAN ÖZCAN|AHMET ENES KURU,8.GRUP|AHMET KEREM BAYRAKTAR|ARİFHAN İNAN|KEREM YAVUZ YILMAZ,9.GRUP|ÖMER FARUK CAMBAZ|YUSUF GÜLCAN|MEHMET AKİF ÇAKIR,10.GRUP|İLHAN AHMET ÇAYIR|TEVFİK TUNA ÇAKMAK|MEHMET HİLMİ ÇELEN,11.GRUP|ÖMER YAĞIZ EMSEN|HÜSEYİN EMİR AKKOÇ|SENCER ÇELİKKANAT,12.GRUP|YUNUS KEREM ÖZDEMİR|MEHMET YILMAZ|MEHMET ENES İNAN,13.GRUP|BEHLÜL EDİP ÇAKIR|OSMAN YEŞİLIRMAK|AHMET FATİH ÖLMEZ,14.GRUP|MEHMET SELİM DEMİRCİ|İBRAHİM YAĞIZ YİĞEN|EMİN KEREM AKÇAY";
+var yemekData=[];
+Y.split(",").forEach(function(a){var p=a.split("|");yemekData.push({group:p[0],members:[p[1],p[2],p[3]]});});
+var YT="04.08 SALI,05.08 ÇARŞAMBA,06.08 PERŞEMBE,07.08 CUMA,10.08 PAZARTESİ,11.08 SALI,12.08 ÇARŞAMBA,13.08 PERŞEMBE,14.08 CUMA,17.08 PAZARTESİ,18.08 SALI,19.08 ÇARŞAMBA,20.08 PERŞEMBE,21.08 CUMA".split(",");
+var R="BAŞKAN|MEHMET BUĞRAHAN BİNGÖL,BAŞKAN YARDIMCISI|MUHAMMED ENES KINCAK,EKMEKÇİ|FARUK SELİM ATACAN,SERVİSÇİ|KEREM TALHA YILDIRIM";
+var rolesData=[];
+R.split(",").forEach(function(a){var p=a.split("|");rolesData.push({role:p[0],name:p[1]});});
+var C2="PAZARTESİ|MEHMET HAMZA EREN|9,SALI|MEHMET TURAN|10,ÇARŞAMBA|İSMAİL ÇOMAK|10,PERŞEMBE|AHMET SELİM ERDEM|10,CUMA|OSMAN KENAN ÇİMENDAĞ|9,AKŞAM HATİM GECELERİ|HİLMİHAN KIRBIYIK - AHMET FURKAN BALARBAN|10,BAŞKAN|ABDULKADİR DÜZGÜN|11";
+var cayData=[];
+C2.split(",").forEach(function(a){var p=a.split("|");cayData.push({gun:p[0],name:p[1],sinif:p[2]});});
+var I="1|SENCER ÇELİKKANAT|11,2|AHMET FATİH ÖLMEZ|12,3|EMİN KEREM AKÇAY|12,4|İBRAHİM YAĞIZ YİĞEN|12,5|MEHMET ENES İNAN|12,6|MEHMET SELİM DEMİRCİ|12,7|MEHMET YILMAZ|12,8|ÖMER YAĞIZ EMSEN|12,9|YUNUS KEREM ÖZDEMİR|12,10|ABDULKADİR DÜZGÜN|11,11|AHMET BEDİRHAN ÖZCAN|11,12|AHMET ENES KURU|11,13|AHMET KEREM BAYRAKTAR|11,14|ARİFHAN İNAN|11,15|HÜSEYİN EMİR AKKOÇ|11,16|İHSAN BEDİR ŞENOL|11,17|İLHAN AHMET ÇAYIR|11,18|KEREM TALHA YILDIRIM|11,19|KEREM YAVUZ YILMAZ|11,20|MEHMET AKİF ÇAKIR|11,21|MEHMET HİLMİ ÇELEN|11,22|MUHAMMED ENSAR AYDIN|11,23|SENCER ÇELİKKANAT|11,24|TEVFİK TUNA ÇAKMAK|11,25|YUSUF GÜLCAN|11,26|AHMET SELİM ERDEM|10,27|EMİN AKİF UYAR|10,28|HİLMİ ENES BAYRAM|10";
+var imamData=[];
+I.split(",").forEach(function(a){var p=a.split("|");imamData.push({sira:p[0],name:p[1],sinif:p[2]});});
+var M="1|ALİHAN ÖZEN|9,2|AHMET FURKAN BALARBAN|10,3|AHMET SELİM ERDEM|10,4|EMİN AKİF UYAR|10,5|FARUK SELİM ATACAN|10,6|HİLMİ ENES BAYRAM|10,7|HİLMİHAN KIRBIYIK|10,8|MEHMET EMRE OKYAY|10,9|MUHAMMED ENES KINCAK|10,10|MUHİTTİN KILIÇ|10,11|MUSTAFA EMİR BEKİ|10,12|YUSUF KEMAL YETİM|10,13|YUSUF KEREM ERTAŞ|10,14|YUSUF GÜLCAN|11,15|TEVFİK TUNA ÇAKMAK|11,16|SENCER ÇELİKKANAT|11,17|MUHAMMED ENSAR AYDIN|11,18|MEHMET HİLMİ ÇELEN|11,19|MEHMET AKİF ÇAKIR|11,20|KEREM YAVUZ YILMAZ|11,21|KEREM TALHA YILDIRIM|11,22|İLHAN AHMET ÇAYIR|11,23|İHSAN BEDİR ŞENOL|11,24|HÜSEYİN EMİR AKKOÇ|11,25|ARİFHAN İNAN|11,26|AHMET KEREM BAYRAKTAR|11,27|AHMET ENES KURU|11,28|AHMET BEDİRHAN ÖZCAN|11";
+var muezzinData=[];
+M.split(",").forEach(function(a){var p=a.split("|");muezzinData.push({sira:p[0],name:p[1],sinif:p[2]});});
+var KT="28.07 SALI,29.07 ÇARŞAMBA,30.07 PERŞEMBE,31.07 CUMA,03.08 PAZARTESİ,04.08 SALI,05.08 ÇARŞAMBA,06.08 PERŞEMBE,07.08 CUMA,10.08 PAZARTESİ,11.08 SALI,12.08 ÇARŞAMBA,13.08 PERŞEMBE,14.08 CUMA,17.08 PAZARTESİ,18.08 SALI,19.08 ÇARŞAMBA,20.08 PERŞEMBE,21.08 CUMA,24.08 PAZARTESİ,25.08 SALI,26.08 ÇARŞAMBA,27.08 PERŞEMBE,28.08 CUMA,31.08 PAZARTESİ,01.09 SALI,02.09 ÇARŞAMBA,03.09 PERŞEMBE".split(",");
+var N="PAZARTESİ,ABDULKADİR DÜZGÜN|11,İSMAİL ÇOMAK|10,OSMAN KENAN ÇİMENDAĞ|9;SALI,İLHAN AHMET ÇAYIR|11,YUSUF KEMAL YETİM|10,MEHMET BUĞRAHAN BİNGÖL|10;ÇARŞAMBA,HİLMİ ENES BAYRAM|10,ÖMER FARUK CAMBAZ|11,MUHAMMED ENES KINCAK|10;PERŞEMBE,ABDULKADİR DÜZGÜN|11,İSMAİL ÇOMAK|10,OSMAN KENAN ÇİMENDAĞ|9";
+var nobetData=[];
+N.split(";").forEach(function(seg){var p=seg.split(",");var gun=p.shift();var kisiler=[];p.forEach(function(k){var q=k.split("|");kisiler.push([q[0],q[1]]);});nobetData.push({gun:gun,kisiler:kisiler});});
+var GN="07.08 CUMA|MEHMET BUĞRAHAN BİNGÖL,10.08 PAZARTESİ|SENCER ÇELİKKANAT,11.08 SALI|KEREM YAVUZ YILMAZ,12.08 ÇARŞAMBA|AHMET KEREM BAYRAKTAR,13.08 PERŞEMBE|ARİFHAN İNAN,14.08 CUMA|ABDULKADİR DÜZGÜN,17.08 PAZARTESİ|HÜSEYİN EMİR AKKOÇ,18.08 SALI|AHMET ENES KURU,19.08 ÇARŞAMBA|MEHMET TURAN,20.08 PERŞEMBE|MEHMET AKİF ÇAKIR,21.08 CUMA|MUHAMMED ENES KINCAK,23.08 PAZARTESİ|YUSUF KEMAL YETİM,24.08 SALI|TEVFİK TUNA ÇAKMAK,25.08 ÇARŞAMBA|İSMAİL ÇOMAK,26.08 PERŞEMBE|ÖMER FARUK CAMBAZ,27.08 CUMA|YUSUF GÜLCAN,30.08 PAZARTESİ|MUHAMMED ENSAR AYDIN,31.08 SALI|AHMET BEDİRHAN ÖZCAN,01.09 ÇARŞAMBA|HİLMİ ENES BAYRAM,02.09 PERŞEMBE|MUHİTTİN KILIÇ,03.09 CUMA|EYMEN AKİF UYAR,06.09 PAZARTESİ|İLHAN AHMET ÇAYIR,07.09 SALI|YUSUF KEREM ERTAŞ,08.09 ÇARŞAMBA|MUSTAFA EMİR BEKİ,09.09 PERŞEMBE|HİLMİHAN KIRBIYIK,10.09 CUMA|AHMET SELİM ERDEM,13.09 PAZARTESİ|AHMET FURKAN BALARBAN,14.09 SALI|MEHMET EMRE OKYAY,15.09 ÇARŞAMBA|KEREM TALHA YILDIRIM";
+var geceData=[];
+GN.split(",").forEach(function(a){var p=a.split("|");geceData.push({tarih:p[0],name:p[1]});});
+var T="ZEMİN KAT,SPOR SALONU|MUHAMMED ENSAR AYDIN|11|YASİN AKGÖZ / TİMUR ASİMOV,MERDİVEN ALTI|MUHAMMED ENES KINCAK|10|YASİN AKGÖZ / TİMUR ASİMOV,DEPO|MUHAMMED ENES KINCAK|10|YASİN AKGÖZ / TİMUR ASİMOV,GİRİŞ AYAKKABILIK VE MÜRACAAT|YUSUF GÜLCAN|11|YASİN AKGÖZ / TİMUR ASİMOV,CAMLI ODA|EYMEN AKİF UYAR|10|YASİN AKGÖZ / TİMUR ASİMOV,SALON|FARUK SELİM ATACAN|9|YASİN AKGÖZ / TİMUR ASİMOV,GİRİŞ LAVABO|TEVFİK TUNA ÇAKMAK|11|YASİN AKGÖZ / TİMUR ASİMOV,YEMEKHANE|MEHMET BUĞRAHAN BİNGÖL|10|YASİN AKGÖZ / TİMUR ASİMOV,MERDİVEN|YUSUF GÜLCAN|11|YASİN AKGÖZ / TİMUR ASİMOV;1.KAT,1.KAT MÜDÜRİYET|AHMET FURKAN BALARBAN|10|AHMET HİLMİ KADIOĞLU,TOPLANTI ODASI|AHMET FURKAN BALARBAN|10|AHMET HİLMİ KADIOĞLU,ZİYARETÇİ ODASI|AHMET SELİM ERDEM|10|AHMET HİLMİ KADIOĞLU,Y.MESUL ODASI|ABDULKADİR DÜZGÜN|11|AHMET HİLMİ KADIOĞLU,HUSUSİ ODA|ABDULKADİR DÜZGÜN|11|AHMET HİLMİ KADIOĞLU,TUVALETLER|ABDULKADİR DÜZGÜN|11|AHMET HİLMİ KADIOĞLU,MERDİVEN|YUSUF GÜLCAN|11|AHMET HİLMİ KADIOĞLU,HOL|MEHMET AKİF ÇAKIR|11|AHMET HİLMİ KADIOĞLU,ÇAYHANE|İSMAİL ÇOMAK|10|AHMET HİLMİ KADIOĞLU;2.KAT,2. KAT TUVALETLER|MEHMET ENES İNAN|12|EMRULLAH MENTEŞE,TM ETÜT|OSMAN KENAN ÇİMENDAĞ|12|EMRULLAH MENTEŞE,SAYISAL ETÜT|OSMAN YEŞİLIRMAK|12|EMRULLAH MENTEŞE,PERSONEL ODASI|MEHMET SELİM DEMİRCİ|12|EMRULLAH MENTEŞE,MESCİT|EMİN KEREM AKÇAY|12|EMRULLAH MENTEŞE,HOL|İBRAHİM YAĞIZ YİĞEN|12|EMRULLAH MENTEŞE,MERDİVEN|YUSUF GÜLCAN|11|EMRULLAH MENTEŞE;3.KAT,3. KAT 9. SINIF ETÜT|ALİHAN ÖZEN|9|OĞUZHAN TUNA,10. SINIF ETÜT|MUHİTTİN KILIÇ|10|OĞUZHAN TUNA,11. TM ETÜT|ARİFHAN İNAN|11|OĞUZHAN TUNA,11. SAYISAL ETÜT|ARİFHAN İNAN|11|OĞUZHAN TUNA,HOL|HÜSEYİN EMİR AKKOÇ|11|OĞUZHAN TUNA,TUVALETLER|YUSUF KEREM ERTAŞ|10|OĞUZHAN TUNA,BİLGİ İŞLEM|İHSAN BEDİR ŞENOL|11|OĞUZHAN TUNA,TALEBE GÖRÜŞME ODASI|MUHİTTİN KILIÇ|10|OĞUZHAN TUNA,ÖĞRETMENLER ODASI|İHSAN BEDİR ŞENOL|11|OĞUZHAN TUNA,MERDİVEN|YUSUF GÜLCAN|11|OĞUZHAN TUNA;4.KAT,4.KAT YATAKHANE|YUNUS KEREM ÖZDEMİR|12|HAKAN KOCAARİ,YATAKHANE|YUNUS KEREM ÖZDEMİR|12|HAKAN KOCAARİ,REVİR|MEHMET YILMAZ|12|HAKAN KOCAARİ,NÖB. PER. ODASI|MEHMET YILMAZ|12|HAKAN KOCAARİ,HOL|AHMET FATİH ÖLMEZ|12|HAKAN KOCAARİ,BANYOLAR|BEHLÜL EDİP ÇAKIR|12|HAKAN KOCAARİ,TUVALETLER|MEHMET ENES İNAN|12|HAKAN KOCAARİ,MERDİVEN|AHMET FATİH ÖLMEZ|12|HAKAN KOCAARİ;5.KAT,5. KAT 9. SINIF YATAKHANE|MEHMET EMRE ÜLKER|9|ERCAN GÜRÜLTÜOĞLU,10. SINIF YATAKHANE|HİLMİ ENES BAYRAM|10|ERCAN GÜRÜLTÜOĞLU,10. YATAKHANE|HİLMİ ENES BAYRAM|10|ERCAN GÜRÜLTÜOĞLU,11. SINIF YATAKHANE|SENCER ÇELİKKANAT|11|ERCAN GÜRÜLTÜOĞLU,11. SINIF YATAKHANE|SENCER ÇELİKKANAT|11|ERCAN GÜRÜLTÜOĞLU,HOL|AHMET BEDİRHAN ÖZCAN|11|ERCAN GÜRÜLTÜOĞLU,TUVALETLER|AHMET KEREM BAYRAKTAR / AHMET ENES KURU|11-11|ERCAN GÜRÜLTÜOĞLU,KURUTMALIK|YUSUF KEMAL YETİM|10|ERCAN GÜRÜLTÜOĞLU,MERDİVEN|YUSUF KEMAL YETİM|10|ERCAN GÜRÜLTÜOĞLU;6.KAT,6. KAT LOKAL|MEHMET EMRE OKYAY|10|AHMET ALİHAN DOĞAN,BİLGİSAYAR ODASI|KEREM TALHA YILDIRIM|11|AHMET ALİHAN DOĞAN,KÜTÜPHANE|MEHMET HAMZA EREN|9|AHMET ALİHAN DOĞAN,HOL|MEHMET HAMZA EREN|9|AHMET ALİHAN DOĞAN,KANTİN|MUSTAFA EMİR BEKİ|10|AHMET ALİHAN DOĞAN";
+var temizlikData=[];
+T.split(";").forEach(function(seg){var parts=seg.split(",");var kat=parts.shift();var rows=[];parts.forEach(function(r){rows.push(r.split("|"));});temizlikData.push({kat:kat,rows:rows});});
+var GUNLER = ['PAZAR','PAZARTESİ','SALI','ÇARŞAMBA','PERŞEMBE','CUMA','CUMARTESİ'];
+var YEMEK_ANCHOR = new Date(2026, 7, 4);
+var KIRAAT_ANCHOR = new Date(2026, 6, 28);
+function isWeekend(d){var w=d.getDay();return w===0||w===6;}
+function mod(a,b){return ((a%b)+b)%b;}
+function wdiff(from,to){
+    var step = to >= from ? 1 : -1;
+    var count = 0;
+    var d = new Date(from.getFullYear(), from.getMonth(), from.getDate());
+    var t = new Date(to.getFullYear(), to.getMonth(), to.getDate());
+    while (d.getTime() !== t.getTime()) {
+        d.setDate(d.getDate() + step);
+        if (!isWeekend(d)) count += step;
+    }
+    return count;
+}
+function todayNum(anchor, cycle) {
+    var now = new Date();
+    if (isWeekend(now)) return 0;
+    return mod(wdiff(anchor, now), cycle) + 1;
+}
+function dmVal(s){return Number(s.substring(3,5))*100 + Number(s.substring(0,2));}
+function renderSchedule() {
+    var tbody = document.getElementById('scheduleBody');
+    tbody.innerHTML = '';
+    var now = new Date();
+    var currentMinutes = now.getHours() * 60 + now.getMinutes();
+    for (var i = 0; i < scheduleData.length; i++) {
+        var item = scheduleData[i];
+        var row = document.createElement('tr');
+        var sp = item.start.split(':');
+        var ep = item.end.split(':');
+        var startTotal = Number(sp[0]) * 60 + Number(sp[1]);
+        var endTotal = Number(ep[0]) * 60 + Number(ep[1]);
+        if (endTotal < startTotal) endTotal += 24 * 60;
+        var checkCurrent = currentMinutes;
+        if (checkCurrent < startTotal && item.title === "MECBURİ İSTİRAHAT") checkCurrent += 24 * 60;
+        if (checkCurrent >= startTotal && checkCurrent < endTotal) row.className = 'active-row';
+        var titleClass = item.type === 'highlight' ? 'highlight-text' : (item.type === 'bold' ? 'bold-text' : '');
+        row.innerHTML = '<td>' + item.start + '</td><td>' + item.end + '</td><td class="' + titleClass + '">' + item.title + '</td>';
+        tbody.appendChild(row);
+    }
+}
+function renderYemek() {
+    var bugunG = todayNum(YEMEK_ANCHOR, 14);
+    var html = '<thead><tr><th colspan="3">GRUPLAR</th></tr><tr><th>1.KİŞİ (SOL)</th><th>2.KİŞİ (ORTA)</th><th>3.KİŞİ (SAĞ)</th></tr></thead><tbody>';
+    for (var i = 0; i < yemekData.length; i++) {
+        var g = yemekData[i];
+        var num = i + 1;
+        var isToday = (num === bugunG);
+        html += '<tr><td colspan="3" class="group-header' + (isToday ? ' today-header' : '') + '">' + g.group + ' - ' + (YT[i] || '') + (isToday ? ' (BUGÜN)' : '') + '</td></tr>';
+        html += '<tr' + (isToday ? ' class="today-row"' : '') + '><td style="text-align:left; padding-left:12px;">' + g.members[0] + '</td><td>' + g.members[1] + '</td><td style="text-align:right; padding-right:12px;">' + g.members[2] + '</td></tr>';
+    }
+    html += '<tr><td colspan="3" class="group-header">GÖREVLİLER</td></tr><tr><th>GÖREV</th><th colspan="2">İSİM</th></tr>';
+    for (var j = 0; j < rolesData.length; j++) {
+        html += '<tr><td class="bold-text">' + rolesData[j].role + '</td><td colspan="2">' + rolesData[j].name + '</td></tr>';
+    }
+    html += '</tbody>';
+    document.getElementById('yemekTable').innerHTML = html;
+}
+function renderCay() {
+    var bugunGun = GUNLER[new Date().getDay()];
+    var html = '<thead><tr><th>GÜN</th><th>ADI SOYADI</th><th>SINIFI</th></tr></thead><tbody>';
+    for (var i = 0; i < cayData.length; i++) {
+        var c = cayData[i];
+        var isToday = (c.gun === bugunGun);
+        html += '<tr' + (isToday ? ' class="today-row"' : '') + '><td class="bold-text">' + c.gun + '</td><td>' + c.name + '</td><td>' + c.sinif + '</td></tr>';
+    }
+    html += '</tbody>';
+    document.getElementById('cayTable').innerHTML = html;
+}
+function renderKiraat() {
+    var bugunK = todayNum(KIRAAT_ANCHOR, 28);
+    var h1 = '';
+    for (var i = 0; i < imamData.length; i++) {
+        var isToday = (i + 1 === bugunK);
+        h1 += '<tr' + (isToday ? ' class="today-row"' : '') + '><td>' + imamData[i].sira + '</td><td>' + imamData[i].name + '</td><td>' + imamData[i].sinif + '</td><td>' + (KT[i] || '') + (isToday ? ' (BUGÜN)' : '') + '</td></tr>';
+    }
+    document.getElementById('imamBody').innerHTML = h1;
+    var h2 = '';
+    for (var j = 0; j < muezzinData.length; j++) {
+        var isToday2 = (j + 1 === bugunK);
+        h2 += '<tr' + (isToday2 ? ' class="today-row"' : '') + '><td>' + muezzinData[j].sira + '</td><td>' + muezzinData[j].name + '</td><td>' + muezzinData[j].sinif + '</td><td>' + (KT[j] || '') + (isToday2 ? ' (BUGÜN)' : '') + '</td></tr>';
+    }
+    document.getElementById('muezzinBody').innerHTML = h2;
+}
+function renderNobet() {
+    var bugunGun = GUNLER[new Date().getDay()];
+    var html = '<thead><tr><th>KİŞİ</th><th>ADI SOYADI</th><th>SINIFI</th></tr></thead><tbody>';
+    for (var i = 0; i < nobetData.length; i++) {
+        var n = nobetData[i];
+        var isToday = (n.gun === bugunGun);
+        html += '<tr><td colspan="3" class="group-header' + (isToday ? ' today-header' : '') + '">' + n.gun + ' GECESİ' + (isToday ? ' (BUGÜN)' : '') + '</td></tr>';
+        for (var j = 0; j < n.kisiler.length; j++) {
+            html += '<tr' + (isToday ? ' class="today-row"' : '') + '><td>' + (j + 1) + '.KİŞİ</td><td>' + n.kisiler[j][0] + '</td><td>' + n.kisiler[j][1] + '</td></tr>';
+        }
+    }
+    html += '</tbody>';
+    document.getElementById('nobetTable').innerHTML = html;
+}
+function renderGece() {
+    var now = new Date();
+    var tDM = (now.getMonth() + 1) * 100 + now.getDate();
+    var bugunName = '';
+    var best = null;
+    for (var i = 0; i < geceData.length; i++) {
+        var dm = dmVal(geceData[i].tarih);
+        if (dm === tDM) bugunName = geceData[i].name;
+        if (dm >= tDM && best === null) best = geceData[i];
+    }
+    var box;
+    if (bugunName !== '') box = 'BUGÜNÜN GECE NÖBETÇİSİ: ' + bugunName;
+    else if (best) box = 'SIRADAKİ NÖBET: ' + best.tarih + ' GECESİ - ' + best.name;
+    else box = 'NÖBET LİSTESİ TAMAMLANDI';
+    var html = '<thead><tr><th>TARİH</th><th>GECE NÖBETÇİSİ</th></tr></thead><tbody>';
+    html += '<tr><td colspan="2" class="group-header today-header">' + box + '</td></tr>';
+    for (var k = 0; k < geceData.length; k++) {
+        var isToday = (dmVal(geceData[k].tarih) === tDM);
+        html += '<tr' + (isToday ? ' class="today-row"' : '') + '><td class="bold-text">' + geceData[k].tarih + ' GECESİ</td><td>' + geceData[k].name + (isToday ? ' (BUGÜN)' : '') + '</td></tr>';
+    }
+    html += '</tbody>';
+    document.getElementById('geceTable').innerHTML = html;
+}
+function renderTemizlik() {
+    var html = '';
+    for (var i = 0; i < temizlikData.length; i++) {
+        var k = temizlikData[i];
+        html += '<tr><td colspan="4" class="group-header">' + k.kat + '</td></tr>';
+        for (var j = 0; j < k.rows.length; j++) {
+            var r = k.rows[j];
+            html += '<tr><td class="bold-text" style="text-align:left; padding-left:10px;">' + r[0] + '</td><td>' + r[1] + '</td><td>' + r[2] + '</td><td class="bold-text">' + r[3] + '</td></tr>';
+        }
+    }
+    document.getElementById('temizlikBody').innerHTML = html;
+}
+function updateInfoCard() {
+    var bugunGun = GUNLER[new Date().getDay()];
+    var bugunK = todayNum(KIRAAT_ANCHOR, 28);
+    var imam = (bugunK > 0 && imamData[bugunK - 1]) ? imamData[bugunK - 1].name : '-';
+    var muezzin = (bugunK > 0 && muezzinData[bugunK - 1]) ? muezzinData[bugunK - 1].name : '-';
+    var cay = '-';
+    for (var i = 0; i < cayData.length; i++) {
+        if (cayData[i].gun === bugunGun) { cay = cayData[i].name; break; }
+    }
+    // YARININ GECE NÖBETÇİSİ
+    var now = new Date();
+    var yarin = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    var yDM = (yarin.getMonth() + 1) * 100 + yarin.getDate();
+    var gece = '-';
+    for (var j = 0; j < geceData.length; j++) {
+        if (dmVal(geceData[j].tarih) === yDM) { gece = geceData[j].name; break; }
+    }
+    var nobet = '-';
+    for (var k = 0; k < nobetData.length; k++) {
+        if (nobetData[k].gun === bugunGun) {
+            var kisiler = [];
+            for (var l = 0; l < nobetData[k].kisiler.length; l++) kisiler.push(nobetData[k].kisiler[l][0]);
+            nobet = kisiler.join(', ');
+            break;
+        }
+    }
+    var currentMinutes = now.getHours() * 60 + now.getMinutes();
+    var aktifProgram = '-';
+    for (var m = 0; m < scheduleData.length; m++) {
+        var item = scheduleData[m];
+        var sp = item.start.split(':');
+        var ep = item.end.split(':');
+        var startTotal = Number(sp[0]) * 60 + Number(sp[1]);
+        var endTotal = Number(ep[0]) * 60 + Number(ep[1]);
+        if (endTotal < startTotal) endTotal += 24 * 60;
+        var checkCurrent = currentMinutes;
+        if (checkCurrent < startTotal && item.title === "MECBURİ İSTİRAHAT") checkCurrent += 24 * 60;
+        if (checkCurrent >= startTotal && checkCurrent < endTotal) {
+            aktifProgram = item.start + ' - ' + item.title;
+            break;
+        }
+    }
+    document.getElementById('infoImam').textContent = imam;
+    document.getElementById('infoMuezzin').textContent = muezzin;
+    document.getElementById('infoCay').textContent = cay;
+    document.getElementById('infoGece').textContent = gece;
+    document.getElementById('infoNobet').textContent = nobet;
+    document.getElementById('infoProgram').textContent = aktifProgram;
+}
+function updateClock() {
+    document.getElementById('clock1').textContent = new Date().toLocaleTimeString('tr-TR');
+    if (new Date().getSeconds() === 0) { renderSchedule(); updateInfoCard(); }
+}
+function openScreen(id) {
+    document.getElementById(id).classList.add('active');
+    document.getElementById(id).scrollTop = 0;
+    document.getElementById('versionBadge').style.display = 'none';
+}
+function closeScreen(id) {
+    document.getElementById(id).classList.remove('active');
+    document.getElementById('versionBadge').style.display = 'block';
+}
+window.onload = function() {
+    renderSchedule();
+    renderYemek();
+    renderCay();
+    renderKiraat();
+    renderTemizlik();
+    renderNobet();
+    renderGece();
+    updateInfoCard();
+    setInterval(updateClock, 1000);
+    updateClock();
+    document.getElementById('versionBadge').textContent = 'v3.6 ✔';
+};
+</script>
+</body>
+</html>
