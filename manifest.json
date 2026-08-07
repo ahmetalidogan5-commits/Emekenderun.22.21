@@ -1,0 +1,17 @@
+{
+  "name": "Emek Enderun",
+  "short_name": "Enderun",
+  "description": "Emek Enderun Günlük Program",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2c3e50",
+  "orientation": "portrait",
+  "icons": [
+    {
+      "src": "https://r.resimlink.com/Y-BhcjQ0U_.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}
