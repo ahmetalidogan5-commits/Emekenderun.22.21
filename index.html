@@ -366,15 +366,13 @@ function closeScreen(id) {
     document.getElementById(id).classList.remove('active');
     document.getElementById('versionBadge').style.display = 'block';
 }
-    function showIntro() {
-    var hasSeenIntro = localStorage.getItem('enderunIntroSeen');
-    if (!hasSeenIntro) {
-        var intro = document.getElementById('introOverlay');
-        intro.classList.add('active');
-        setTimeout(function() {
-            intro.classList.remove('active');
-            localStorage.setItem('enderunIntroSeen', 'true');
-        }, 2500);
+   function showIntro() {
+    var intro = document.getElementById('introOverlay');
+    intro.classList.add('active');
+    setTimeout(function() {
+        intro.classList.remove('active');
+    }, 2500);
+}
     }
 }
 window.onload = function() {
