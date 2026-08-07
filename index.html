@@ -450,6 +450,24 @@ function closeScreen(id) {
         intro.classList.remove('active');
     }, 2500);
 }
+    // SWIPE İLE GERİ DÖN (SAĞA VE SOLA)
+var touchStartX = 0;
+document.addEventListener('touchstart', function(e) {
+    touchStartX = e.changedTouches[0].screenX;
+}, {passive: true});
+document.addEventListener('touchend', function(e) {
+    var touchEndX = e.changedTouches[0].screenX;
+    var diff = touchEndX - touchStartX;
+    if (Math.abs(diff) > 100) {
+        var screens = ['programScreen','yemekScreen','cayScreen','kiraatScreen','temizlikScreen','nobetScreen','geceScreen'];
+        for (var i = 0; i < screens.length; i++) {
+            if (document.getElementById(screens[i]).classList.contains('active')) {
+                closeScreen(screens[i]);
+                break;
+            }
+        }
+    }
+}, {passive: true});
 window.onload = function() {
         showIntro();
     renderSchedule();
