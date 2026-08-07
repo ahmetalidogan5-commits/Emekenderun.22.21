@@ -294,7 +294,7 @@ function updateInfoCard() {
     var yDM = (yarin.getMonth() + 1) * 100 + yarin.getDate();
     var gece = '-';
     for (var j = 0; j < geceData.length; j++) {
-        if (dmVal(geceData[j].tarih) === yDM) { gece = geceData[j].name; break; }
+        if (dmVal(geceData[j].tarih) === yDM) { gece = geceData[j].tarih + ' - ' + geceData[j].name; break; }
     }
     var nobet = '-';
     for (var k = 0; k < nobetData.length; k++) {
