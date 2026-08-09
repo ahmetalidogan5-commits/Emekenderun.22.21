@@ -199,6 +199,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
         <div class="info-row"><span class="info-label">ÇAYCIMIZ</span><span class="info-value" id="infoCay">-</span></div>
         <div class="info-row"><span class="info-label">GECE NÖBETÇİMİZ</span><span class="info-value" id="infoGece">-</span></div>
         <div class="info-row"><span class="info-label">KURUL KALDIRICIMIZ</span><span class="info-value" id="infoNobet">-</span></div>
+        <div class="info-row"><span class="info-label">YEMEKÇİ</span><span class="info-value" id="infoYemek">-</span></div>
         <div class="info-row active"><span class="info-label">ŞU AN</span><span class="info-value" id="infoProgram">-</span></div>
     </div>
 </div>
@@ -446,6 +447,13 @@ function updateInfoCard() {
     document.getElementById('infoCay').textContent = cay;
     document.getElementById('infoGece').textContent = gece;
     document.getElementById('infoNobet').textContent = nobet;
+    var yemek = '-';
+var yemekGrubu = todayNum(YEMEK_ANCHOR, 14);
+if (yemekGrubu > 0 && yemekData[yemekGrubu - 1]) {
+    var uyeler = yemekData[yemekGrubu - 1].members;
+    yemek = uyeler.join(', ');
+}
+document.getElementById('infoYemek').textContent = yemek;
     document.getElementById('infoProgram').textContent = aktifProgram;
 }
 function updateClock() {
