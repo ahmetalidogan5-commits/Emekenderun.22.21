@@ -419,7 +419,7 @@ function updateInfoCard() {
     }
     var nobet = '-';
     for (var k = 0; k < nobetData.length; k++) {
-        if (nobetData[k].gun === bugunGun) {
+        if (nobetData[k].gun === GUNLER[(new Date().getDay() + 1) % 7]) {
             var kisiler = [];
             for (var l = 0; l < nobetData[k].kisiler.length; l++) kisiler.push(nobetData[k].kisiler[l][0]);
             nobet = kisiler.join(', ');
