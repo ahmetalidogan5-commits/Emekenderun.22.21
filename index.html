@@ -74,39 +74,32 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
     .split-table { flex-direction: column; }
     .screen-content { padding: 15px; padding-bottom: 80px; }
 }
-/* YENİ ZENGİN AÇILIŞ */
+/* MİNİMALİST AÇILIŞ */
 .intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: linear-gradient(135deg, #1e3c72 0%, #2a5298 50%, #7e8ba3 100%);
+    background: #2c3e50; /* Düz koyu mavi */
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     z-index: 10000; opacity: 0; pointer-events: none; 
-    transition: opacity 0.4s ease-out;
+    transition: opacity 0.3s ease-out;
 }
 .intro-overlay.active { opacity: 1; pointer-events: all; }
 .intro-text {
-    font-size: 3rem; font-weight: 900; color: white; text-align: center;
-    letter-spacing: 6px; opacity: 0; transform: translateY(40px) scale(0.9);
-    text-shadow: 0 0 30px rgba(255,255,255,0.6), 0 0 60px rgba(255,255,255,0.3);
-    animation: richIntro 2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+    font-size: 2.8rem; font-weight: 900; color: #ffffff; text-align: center;
+    letter-spacing: 4px; opacity: 0; transform: translateY(20px);
+    animation: minIntro 1.2s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }
 .intro-subtitle {
-    font-size: 1.1rem; color: #fff; margin-top: 25px; letter-spacing: 10px;
-    font-weight: 600; text-transform: uppercase; opacity: 0; transform: translateY(20px);
-    animation: slideUpFade 1s ease 0.6s forwards;
-    border-top: 1px solid rgba(255,255,255,0.3); padding-top: 15px; min-width: 200px; text-align: center;
+    font-size: 1rem; color: #d4af37; margin-top: 15px; letter-spacing: 6px;
+    font-weight: 600; text-transform: uppercase; opacity: 0; transform: translateY(10px);
+    animation: minSub 1s ease 0.4s forwards;
 }
-.intro-line {
-    width: 0; height: 2px; background: #d4af37; margin-top: 20px;
-    box-shadow: 0 0 10px #d4af37; animation: expandLine 0.8s ease 0.4s forwards;
+@keyframes minIntro {
+    0% { opacity: 0; transform: translateY(20px); }
+    100% { opacity: 1; transform: translateY(0); }
 }
-@keyframes richIntro {
-    0% { opacity: 0; transform: translateY(40px) scale(0.9); filter: blur(10px); }
-    100% { opacity: 1; transform: translateY(0) scale(1); filter: blur(0); }
+@keyframes minSub {
+    to { opacity: 1; transform: translateY(0); }
 }
-@keyframes slideUpFade { to { opacity: 1; transform: translateY(0); } }
-@keyframes expandLine { to { width: 150px; } }
-    }
-    to { 
         text-shadow: 0 0 30px rgba(255,255,255,0.8),
                      0 0 60px rgba(255,255,255,0.5),
                      0 0 90px rgba(255,255,255,0.3),
@@ -452,7 +445,7 @@ function closeScreen(id) {
     intro.classList.add('active');
     setTimeout(function() {
         intro.classList.remove('active');
-    }, 1800);
+    }, 1200);
 }
 // SWIPE İLE GERİ DÖN (SAĞA VE SOLA) - SADECE AÇIK EKRAN VARSA
 var touchStartX = 0;
