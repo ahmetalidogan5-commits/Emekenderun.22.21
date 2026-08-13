@@ -154,6 +154,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
     <div class="profile-section"><img src="https://r.resimlink.com/XMru4hv.png" alt="Logo" class="profile-img"></div>
     <h1>BURSA ENDERUN</h1>
     <p class="subtitle">2026-2027</p>
+    <button class="btn btn-full" onclick="requestNotificationPermission()" style="background:#d4af37;color:#2c3e50;border:none;font-weight:700;margin-bottom:15px;"> BİLDİRİMLERİ AÇ</button>
     <div class="btn-group">
         <button class="btn btn-full" onclick="openScreen('programScreen')">GÜNLÜK PROGRAM</button>
         <button class="btn" onclick="openScreen('yemekScreen')">YEMEKÇİLİK LİSTESİ</button>
@@ -429,7 +430,7 @@ document.getElementById('infoYemek').textContent = yemek;
 }
 function updateClock() {
     document.getElementById('clock1').textContent = new Date().toLocaleTimeString('tr-TR');
-    if (new Date().getSeconds() === 0) { renderSchedule(); updateInfoCard(); }
+   if (new Date().getSeconds() === 0) { renderSchedule(); updateInfoCard(); checkProgramNotifications(); }
 }
 function openScreen(id) {
     document.getElementById(id).classList.add('active');
@@ -495,6 +496,71 @@ document.addEventListener('touchend', function(e) {
         closeScreen(activeScreen);
     }
 }, {passive: false});
+    // BİLDİRİM SİSTEMİ
+var notifiedPrograms = [];
+var lastNotifiedTime = '';
+
+function requestNotificationPermission() {
+    if ('Notification' in window) {
+        Notification.requestPermission().then(function(permission) {
+            if (permission === 'granted') {
+                new Notification('Bildirimler Aktif!', {
+                    body: 'Program saatlerinde size bildirim göndereceğiz.',
+                    icon: 'https://r.resimlink.com/XMru4hv.png'
+                });
+                alert('✅ Bildirimler aktif! Artık program saatlerinde uyarı alacaksınız.');
+            }
+        });
+    } else {
+        alert('Tarayıcınız bildirimleri desteklemiyor.');
+    }
+}
+
+function checkProgramNotifications() {
+    var now = new Date();
+    var currentMinutes = now.getHours() * 60 + now.getMinutes();
+    var currentTimeStr = now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0');
+    
+    if (currentTimeStr === lastNotifiedTime) return;
+    
+    for (var i = 0; i < scheduleData.length; i++) {
+        var item = scheduleData[i];
+        var sp = item.start.split(':');
+        var startMinutes = Number(sp[0]) * 60 + Number(sp[1]);
+        
+        if (currentMinutes === startMinutes - 5) {
+            sendNotification('PROGRAM YAKLAŞIYOR!', item.start + ' - ' + item.title);
+            lastNotifiedTime = currentTimeStr;
+            break;
+        }
+        
+        if (currentMinutes === startMinutes) {
+            sendNotification('PROGRAM BAŞLADI', item.start + ' - ' + item.title);
+            lastNotifiedTime = currentTimeStr;
+            break;
+        }
+    }
+}
+
+function sendNotification(title, body) {
+    if ('Notification' in window && Notification.permission === 'granted') {
+        new Notification(title, {
+            body: body,
+            icon: 'https://r.resimlink.com/XMru4hv.png',
+            badge: 'https://r.resimlink.com/XMru4hv.png',
+            requireInteraction: true
+        });
+    }
+    showInPageNotification(title, body);
+}
+
+function showInPageNotification(title, body) {
+    var notif = document.createElement('div');
+    notif.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#d4af37,#f4e5b0);color:#2c3e50;padding:20px 30px;border-radius:12px;box-shadow:0 10px 40px rgba(0,0,0,0.3);z-index:9999;font-weight:700;text-align:center;max-width:90%;';
+    notif.innerHTML = '<div style="font-size:1.2rem;margin-bottom:5px;">' + title + '</div><div style="font-size:0.9rem;">' + body + '</div>';
+    document.body.appendChild(notif);
+    setTimeout(function() { notif.style.opacity = '0'; notif.style.transition = 'opacity 0.5s'; setTimeout(function() { notif.remove(); }, 500); }, 4000);
+}
 window.onload = function() {
         showIntro();
     renderSchedule();
