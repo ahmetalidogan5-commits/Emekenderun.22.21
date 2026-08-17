@@ -174,6 +174,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
         <div class="info-row"><span class="info-label">YEMEKÇİMİZ</span><span class="info-value" id="infoYemek">-</span></div>
         <div class="info-row active"><span class="info-label">ŞU AN</span><span class="info-value" id="infoProgram">-</span></div>
         <div class="info-row" style="opacity:0.6;"><span class="info-label" style="font-size:0.8rem;">ÖNCEKİ</span><span class="info-value" id="infoOnceki" style="font-size:0.8rem;">-</span></div>
+           <div class="info-row" style="opacity:0.6;"><span class="info-label" style="font-size:0.8rem;">SONRAKİ</span><span class="info-value" id="infoSonraki" style="font-size:0.8rem;">-</span></div>
     </div>
 </div>
 <div class="screen" id="programScreen"><div class="screen-content">
@@ -208,7 +209,6 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
     <div class="table-container"><table id="geceTable"></table></div>
 </div></div>
 <div class="version-badge" id="versionBadge">v4.0</div>
-    <div style="position:fixed;bottom:10px;width:100%;text-align:center;font-size:0.7rem;color:#95a5a6;letter-spacing:1px;pointer-events:none;">© 2026 Emek Enderun. Tüm hakları saklıdır.</div>
 <script>
 var S="04:45|05:00|KALKIŞ VE NAMAZA HAZIRLIK|0,05:00|05:15|SABAH NAMAZI|1,05:15|05:30|HATİM|0,05:30|06:00|VAZİFE|0,06:00|08:00|İSTİRAHAT|0,08:00|08:30|KAHVALTI|0,08:30|08:50|TEMİZLİK|0,08:50|09:00|DAHİLİ DERSE HAZIRLIK|0,09:00|09:50|1. DAHİLİ DERS|2,09:50|10:00|TENEFÜS|0,10:00|10:50|2. DAHİLİ DERS|2,10:50|11:00|TENEFÜS|0,11:00|11:40|OKUL DERSİ 1|0,11:40|11:50|TENEFÜS|0,11:50|12:30|OKUL DERSİ 2|2,12:30|12:40|TENEFÜS|0,12:40|13:20|OKUL DERSİ 3|2,13:20|13:45|ARA VE ÖĞLE NAMAZI|1,13:45|14:30|ÖĞLE YEMEĞİ|0,14:30|15:10|OKUL DERSİ 4|0,15:10|15:20|TENEFÜS|1,15:20|16:00|OKUL DERSİ 5|2,16:00|16:10|TENEFÜS|0,16:10|16:50|OKUL DERSİ 6|1,16:50|17:00|TENEFÜS|0,17:00|17:40|OKUL DERSİ 7|1,17:40|18:00|ARA VE İKİNDİ NAMAZI|0,18:00|18:40|ETÜT 1|0,18:40|19:20|ETÜT 2|0,19:20|20:00|AKŞAM YEMEĞİ|0,20:15|21:05|ETKİNLİK 1|0,21:05|21:15|TENEFÜS|0,21:15|21:30|AKŞAM NAMAZI|0,21:30|22:20|ETKİNLİK 2|0,22:20|22:35|YATSI NAMAZI|1,23:00|00:00|MECBURİ İSTİRAHAT|1";
 var scheduleData=[];
@@ -446,6 +446,14 @@ if(currentIndex>0){
     onceki=lastItem.start+' - '+lastItem.title;
 }
 document.getElementById('infoOnceki').textContent=onceki;
+       var sonraki='-';
+   if(currentIndex>=0 && currentIndex<scheduleData.length-1){
+       var nextItem=scheduleData[currentIndex+1];
+       sonraki=nextItem.start+' - '+nextItem.title;
+   } else if(currentIndex===scheduleData.length-1){
+       sonraki=scheduleData[0].start+' - '+scheduleData[0].title;
+   }
+   document.getElementById('infoSonraki').textContent=sonraki;
 }
 function updateClock() {
     document.getElementById('clock1').textContent = new Date().toLocaleTimeString('tr-TR');
@@ -529,20 +537,25 @@ function bildirimIzniAl() {
     }
 }
 
-function sesCal() {
-    try {
-        var ctx = new (window.AudioContext || window.webkitAudioContext)();
-        var osc = ctx.createOscillator();
-        var gain = ctx.createGain();
-        osc.connect(gain);
-        gain.connect(ctx.destination);
-        osc.type = 'sine';
-        osc.frequency.value = 880; 
-        gain.gain.value = 0.2; 
-        osc.start();
-        setTimeout(function() { osc.stop(); }, 300); 
-    } catch(e) {}
-}
+   function sesCal() {
+       try {
+           var ctx = new (window.AudioContext || window.webkitAudioContext)();
+           var notalar = [523.25, 659.25, 783.99];
+           notalar.forEach(function(freq, i) {
+               var osc = ctx.createOscillator();
+               var gain = ctx.createGain();
+               osc.connect(gain);
+               gain.connect(ctx.destination);
+               osc.type = 'sine';
+               osc.frequency.value = freq;
+               gain.gain.setValueAtTime(0, ctx.currentTime + i * 0.15);
+               gain.gain.linearRampToValueAtTime(0.2, ctx.currentTime + i * 0.15 + 0.02);
+               gain.gain.linearRampToValueAtTime(0, ctx.currentTime + i * 0.15 + 0.15);
+               osc.start(ctx.currentTime + i * 0.15);
+               osc.stop(ctx.currentTime + i * 0.15 + 0.15);
+           });
+       } catch(e) {}
+   }
 
 function programKontrol() {
     var simdi = new Date();
@@ -608,5 +621,6 @@ window.onload = function() {
     document.getElementById('versionBadge').textContent = 'v4.0 ✔';
 };
 </script>
+    <div style="position:fixed;bottom:0;left:0;width:100%;background:rgba(255,255,255,0.95);backdrop-filter:blur(5px);padding:10px;text-align:center;font-size:0.7rem;color:#95a5a6;letter-spacing:1px;border-top:1px solid #e0e0e0;z-index:100;">© 2026 Bursa Enderun. Tüm hakları saklıdır. | v4.1</div>
 </body>
 </html>
