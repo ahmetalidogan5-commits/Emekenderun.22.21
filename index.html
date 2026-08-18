@@ -525,11 +525,16 @@ document.addEventListener('touchend', function(e) {
 var sonBildirimSaati = '';
 
 function bildirimIzniAl() {
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('sw.js').catch(function(){});
+    }
     if ('Notification' in window) {
         Notification.requestPermission().then(function(izin) {
             if (izin === 'granted') {
                 sesCal();
-                alert('Bildirimler ve ses açıldı!');
+                setTimeout(function(){
+                    bildirimGonder('BİLDİRİMLER AÇIK ✅', 'Program vakitlerinde bildirim alacaksın.');
+                }, 500);
             }
         });
     }
@@ -590,13 +595,19 @@ function bildirimGonder(baslik, mesaj) {
         navigator.vibrate([300, 100, 300, 100, 300]);
     }
     if ('Notification' in window && Notification.permission === 'granted') {
-        new Notification(baslik, {
-            body: mesaj,
-            icon: 'https://r.resimlink.com/XMru4hv.png',
-            badge: 'https://r.resimlink.com/XMru4hv.png',
-            requireInteraction: true,
-            tag: 'enderun-bildirim'
-        });
+        if ('serviceWorker' in navigator) {
+            navigator.serviceWorker.ready.then(function(reg) {
+                reg.showNotification(baslik, {
+                    body: mesaj,
+                    icon: 'https://r.resimlink.com/XMru4hv.png',
+                    badge: 'https://r.resimlink.com/XMru4hv.png',
+                    requireInteraction: true,
+                    tag: 'enderun'
+                });
+            }).catch(function(){});
+        } else {
+            try { new Notification(baslik, { body: mesaj }); } catch(e) {}
+        }
     }
 }
 
@@ -604,6 +615,7 @@ var stil = document.createElement('style');
 stil.textContent = '@keyframes inOut { 0% { top: -100px; opacity: 0; } 10% { top: 20px; opacity: 1; } 90% { top: 20px; opacity: 1; } 100% { top: -100px; opacity: 0; } }';
 document.head.appendChild(stil);
 window.onload = function() {
+        if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function(){}); }
         showIntro();
     renderSchedule();
     renderYemek();
