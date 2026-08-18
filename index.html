@@ -212,7 +212,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
 var S="04:45|05:00|KALKIŞ VE NAMAZA HAZIRLIK|0,05:00|05:15|SABAH NAMAZI|1,05:15|05:30|HATİM|0,05:30|06:00|VAZİFE|0,06:00|08:00|İSTİRAHAT|0,08:00|08:30|KAHVALTI|0,08:30|08:50|TEMİZLİK|0,08:50|09:00|DAHİLİ DERSE HAZIRLIK|0,09:00|09:50|1. DAHİLİ DERS|2,09:50|10:00|TENEFÜS|0,10:00|10:50|2. DAHİLİ DERS|2,10:50|11:00|TENEFÜS|0,11:00|11:40|OKUL DERSİ 1|0,11:40|11:50|TENEFÜS|0,11:50|12:30|OKUL DERSİ 2|2,12:30|12:40|TENEFÜS|0,12:40|13:20|OKUL DERSİ 3|2,13:20|13:45|ARA VE ÖĞLE NAMAZI|1,13:45|14:30|ÖĞLE YEMEĞİ|0,14:30|15:10|OKUL DERSİ 4|0,15:10|15:20|TENEFÜS|1,15:20|16:00|OKUL DERSİ 5|2,16:00|16:10|TENEFÜS|0,16:10|16:50|OKUL DERSİ 6|1,16:50|17:00|TENEFÜS|0,17:00|17:40|OKUL DERSİ 7|1,17:40|18:00|ARA VE İKİNDİ NAMAZI|0,18:00|18:40|ETÜT 1|0,18:40|19:20|ETÜT 2|0,19:20|20:00|AKŞAM YEMEĞİ|0,20:15|21:05|ETKİNLİK 1|0,21:05|21:15|TENEFÜS|0,21:15|21:30|AKŞAM NAMAZI|0,21:30|22:20|ETKİNLİK 2|0,22:20|22:35|YATSI NAMAZI|1,23:00|00:00|MECBURİ İSTİRAHAT|1";
 var scheduleData=[];
 S.split(",").forEach(function(a){var p=a.split("|");scheduleData.push({start:p[0],end:p[1],title:p[2],type:["normal","bold","highlight"][Number(p[3])]});});
-var Y="1.GRUP|ALİHAN ÖZEN|MEMHET EMRE ÜLKER|MEHMET HAMZA EREN,2.GRUP|AHMET YASİN ŞAHİN|OSMAN KENAN ÇİMENDAĞ|HİLMİHAN KIRBIYIK,3.GRUP|AHMET FURKAN BALARBAN|AHMET SELİM ERDEM|YUSUF KEMAL YETİM,4.GRUP|İSMAİL ÇOMAK|EYMEN AKİF UYAR|MUHİTTİN KILIÇ,5.GRUP|HİLMİ ENES BAYRAM|MUHAMMED ENES KINCAK|MUSTAFA EMİR BEKİ,6.GRUP|MUHAMMED ENSAR AYDIN|AHMET BEDİRHAN ÖZCAN|AHMET ENES KURU,7.GRUP|MEHMET EMRE OKYAY|MEHMET TURAN|YUSUF KEREM ERTAŞ,8.GRUP|ÖMER FARUK CAMBAZ|YUSUF GÜLCAN|MEHMET AKİF ÇAKIR,9.GRUP|ÖMER YAĞIZ EMSEN|HÜSEYİN EMİR AKKOÇ|SENCER ÇELİKKANAT,10.GRUP|YUNUS KEREM ÖZDEMİR|MEHMET YILMAZ|MEHMET ENES İNAN,11.GRUP|İLHAN AHMET ÇAYIR|TEVFİK TUNA ÇAKMAK|MEHMET HİLMİ ÇELEN,12.GRUP|AHMET KEREM BAYRAKTAR|ARİFHAN İNAN|KEREM YAVUZ YILMAZ,13.GRUP|BEHLÜL EDİP ÇAKIR|OSMAN YEŞİLIRMAK|AHMET FATİH ÖLMEZ,14.GRUP|MEHMET SELİM DEMİRCİ|İBRAHİM YAĞIZ YİĞEN|EMİN KEREM AKÇAY";
+var Y="1.GRUP|ALİHAN ÖZEN|MEMHET EMRE ÜLKER|MEHMET HAMZA EREN,2.GRUP|AHMET YASİN ŞAHİN|OSMAN KENAN ÇİMENDAĞ|HİLMİHAN KIRBIYIK,3.GRUP|AHMET FURKAN BALARBAN|AHMET SELİM ERDEM|YUSUF KEMAL YETİM,4.GRUP|İSMAİL ÇOMAK|EYMEN AKİF UYAR|MUHİTTİN KILIÇ,5.GRUP|HİLMİ ENES BAYRAM|MUHAMMED ENES KINCAK|MUSTAFA EMİR BEKİ,6.GRUP|MUHAMMED ENSAR AYDIN|AHMET BEDİRHAN ÖZCAN|AHMET ENES KURU,7.GRUP|MEHMET EMRE OKYAY|MEHMET TURAN|YUSUF KEREM ERTAŞ,8.GRUP|ÖMER FARUK CAMBAZ|YUSUF GÜLCAN|MEHMET AKİF ÇAKIR,9.GRUP|ÖMER YAĞIZ EMSEN|HÜSEYİN EMİR AKKOÇ|SENCER ÇELİKKANAT,10.GRUP|YUNUS KEREM ÖZDEMİR|MEHMET YILMAZ|MEHMET ENES İNAN,11.GRUP|BEHLÜL EDİP ÇAKIR|OSMAN YEŞİLIRMAK|AHMET FATİH ÖLMEZ,12.GRUP|AHMET KEREM BAYRAKTAR|ARİFHAN İNAN|KEREM YAVUZ YILMAZ,13.GRUP|İLHAN AHMET ÇAYIR|TEVFİK TUNA ÇAKMAK|MEHMET HİLMİ ÇELEN,14.GRUP|MEHMET SELİM DEMİRCİ|İBRAHİM YAĞIZ YİĞEN|EMİN KEREM AKÇAY";
 var yemekData=[];
 Y.split(",").forEach(function(a){var p=a.split("|");yemekData.push({group:p[0],members:[p[1],p[2],p[3]]});});
 var YT="04.08 SALI,05.08 ÇARŞAMBA,06.08 PERŞEMBE,07.08 CUMA,10.08 PAZARTESİ,11.08 SALI,12.08 ÇARŞAMBA,13.08 PERŞEMBE,14.08 CUMA,17.08 PAZARTESİ,18.08 SALI,19.08 ÇARŞAMBA,20.08 PERŞEMBE,21.08 CUMA".split(",");
@@ -585,19 +585,18 @@ function programKontrol() {
 
 function bildirimGonder(baslik, mesaj) {
     sesCal();
-    
+    if (navigator.vibrate) {
+        navigator.vibrate([300, 100, 300, 100, 300]);
+    }
     if ('Notification' in window && Notification.permission === 'granted') {
         new Notification(baslik, {
             body: mesaj,
-            icon: 'https://r.resimlink.com/XMru4hv.png'
+            icon: 'https://r.resimlink.com/XMru4hv.png',
+            badge: 'https://r.resimlink.com/XMru4hv.png',
+            requireInteraction: true,
+            tag: 'enderun-bildirim'
         });
     }
-    
-    var uyari = document.createElement('div');
-    uyari.style.cssText = 'position:fixed;top:20px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg, #d4af37, #f4e5b0);color:#2c3e50;padding:20px 30px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.3);z-index:9999;font-weight:bold;text-align:center;animation:inOut 5s forwards;';
-    uyari.innerHTML = '<div style="font-size:1.2rem;">' + baslik + '</div><div style="font-size:1rem;margin-top:5px;">' + mesaj + '</div>';
-    document.body.appendChild(uyari);
-    setTimeout(function(){ uyari.remove(); }, 5000);
 }
 
 var stil = document.createElement('style');
