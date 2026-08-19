@@ -286,8 +286,18 @@ function renderSchedule() {
         tbody.appendChild(row);
     }
 }
-function renderYemek() {
-    var bugunG = todayNum(YEMEK_ANCHOR, 14);
+function tarihtenBul(liste){
+    var d=new Date();
+    var dd=('0'+d.getDate()).slice(-2);
+    var mm=('0'+(d.getMonth()+1)).slice(-2);
+    var bDM=dd+'.'+mm;
+    for(var i=0;i<liste.length;i++){
+        if(liste[i].substring(0,5)===bDM){return i+1;}
+    }
+    return 0;
+}
+    function renderYemek() {
+    var bugunG = tarihtenBul(YT);
     var html = '<thead><tr><th colspan="3">GRUPLAR</th></tr><tr><th>1.KİŞİ (SOL)</th><th>2.KİŞİ (ORTA)</th><th>3.KİŞİ (SAĞ)</th></tr></thead><tbody>';
     for (var i = 0; i < yemekData.length; i++) {
         var g = yemekData[i];
@@ -380,7 +390,7 @@ function renderTemizlik() {
 }
 function updateInfoCard() {
     var bugunGun = GUNLER[new Date().getDay()];
-    var bugunK = todayNum(KIRAAT_ANCHOR, 28);
+    var bugunK = tarihtenBul(KT);
     var imam = (bugunK > 0 && imamData[bugunK - 1]) ? imamData[bugunK - 1].name : '-';
     var muezzin = (bugunK > 0 && muezzinData[bugunK - 1]) ? muezzinData[bugunK - 1].name : '-';
     var cay = '-';
@@ -426,7 +436,7 @@ function updateInfoCard() {
     document.getElementById('infoGece').textContent = gece;
     document.getElementById('infoNobet').textContent = nobet;
     var yemek = '-';
-var yemekGrubu = todayNum(YEMEK_ANCHOR, 14);
+var yemekGrubu = tarihtenBul(YT);
 if (yemekGrubu > 0 && yemekData[yemekGrubu - 1]) {
     var uyeler = yemekData[yemekGrubu - 1].members;
     yemek = uyeler.join(', ');
