@@ -78,7 +78,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
 /* MİNİMALİST AÇILIŞ */
 .intro-overlay {
     position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-    background: #2c3e50; /* Düz koyu mavi */
+    background: #2c3e50; /* Düz açık mavi */
     display: flex; flex-direction: column; justify-content: center; align-items: center;
     z-index: 10000; opacity: 0; pointer-events: none; 
     transition: opacity 0.3s ease-out;
@@ -155,6 +155,10 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
     <div class="profile-section"><img src="https://r.resimlink.com/XMru4hv.png" alt="Logo" class="profile-img"></div>
     <h1>BURSA ENDERUN</h1>
     <p class="subtitle">2026-2027</p>
+    <div style="margin:15px auto 28px;text-align:center;">
+    <div id="homeTarih" style="font-size:0.78rem;font-weight:700;letter-spacing:3px;color:#d4af37;text-transform:uppercase;margin-bottom:6px;">✦ -- ✦</div>
+    <div id="homeClock" style="font-family:'Cinzel',serif;font-size:2.2rem;font-weight:900;letter-spacing:2px;background:linear-gradient(135deg,#d4af37 0%,#f4e5b0 50%,#d4af37 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;">00:00:00</div>
+</div>
     <button class="btn btn-full" onclick="requestNotificationPermission()" style="background:#d4af37;color:#2c3e50;border:none;font-weight:700;margin-bottom:15px;"> BİLDİRİMLERİ AÇ</button>
     <div class="btn-group">
         <button class="btn btn-full" onclick="openScreen('programScreen')">GÜNLÜK PROGRAM</button>
@@ -456,8 +460,19 @@ document.getElementById('infoOnceki').textContent=onceki;
    document.getElementById('infoSonraki').textContent=sonraki;
 }
 function updateClock() {
-    document.getElementById('clock1').textContent = new Date().toLocaleTimeString('tr-TR');
-  if (new Date().getSeconds() === 0) { renderSchedule(); updateInfoCard(); programKontrol(); }
+    var t = new Date().toLocaleTimeString('tr-TR');
+    var c1 = document.getElementById('clock1');
+    if (c1) c1.textContent = t;
+    var hc = document.getElementById('homeClock');
+    if (hc) hc.textContent = t;
+    var ht = document.getElementById('homeTarih');
+    if (ht) {
+        var d = new Date();
+        var gunler = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+        var aylar = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+        ht.textContent = d.getDate() + ' ' + aylar[d.getMonth()] + ' ' + d.getFullYear() + ', ' + gunler[d.getDay()];
+    }
+    if (new Date().getSeconds() === 0) { renderSchedule(); updateInfoCard(); programKontrol(); }
 }
 function openScreen(id) {
     document.getElementById(id).classList.add('active');
