@@ -178,6 +178,7 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
         <div class="info-row"><span class="info-label">GECE NÖBETÇİMİZ</span><span class="info-value" id="infoGece">-</span></div>
         <div class="info-row"><span class="info-label">KURUL KALDIRICIMIZ</span><span class="info-value" id="infoNobet">-</span></div>
         <div class="info-row"><span class="info-label">YEMEKÇİMİZ</span><span class="info-value" id="infoYemek">-</span></div>
+        <div class="info-row"><span class="info label">EVRÂD-I ŞERİF</span><span class="info-value" id="infoEvrad">-</span></div>
         <div class="info-row" style="opacity:0.6;"><span class="info-label" style="font-size:0.8rem;">ÖNCEKİ</span><span class="info-value" id="infoOnceki" style="font-size:0.8rem;">-</span></div>
    <div class="info-row active"><span class="info-label">ŞU AN</span><span class="info-value" id="infoProgram">-</span></div>
    <div class="info-row" style="opacity:0.6;"><span class="info-label" style="font-size:0.8rem;">SONRAKİ</span><span class="info-value" id="infoSonraki" style="font-size:0.8rem;">-</span></div>
@@ -213,6 +214,10 @@ tr.active-row { background-color: #e8f4f8 !important; font-weight: 600; color: #
 <div class="screen" id="geceScreen"><div class="screen-content">
     <div class="header-bar"><button class="back-btn" onclick="closeScreen('geceScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Gece Nöbetçileri</h2></div>
     <div class="table-container"><table id="geceTable"></table></div>
+</div></div>
+    <div class="screen" id="evradScreen"><div class="screen-content">
+    <div class="header-bar"><button class="back-btn" onclick="closeScreen('evradScreen')">← Geri Dön</button><h2 style="font-size:1.1rem;">Evrad-ı Şerif</h2></div>
+    <div class="table-container"><table id="evradTable"></table></div>
 </div></div>
 <script>
 var S="04:45|05:00|KALKIŞ VE NAMAZA HAZIRLIK|0,05:00|05:15|SABAH NAMAZI|1,05:15|05:30|HATİM|0,05:30|06:00|VAZİFE|0,06:00|08:00|İSTİRAHAT|0,08:00|08:30|KAHVALTI|0,08:30|08:50|TEMİZLİK|0,08:50|09:00|DAHİLİ DERSE HAZIRLIK|0,09:00|09:50|1. DAHİLİ DERS|2,09:50|10:00|TENEFÜS|0,10:00|10:50|2. DAHİLİ DERS|2,10:50|11:00|TENEFÜS|0,11:00|11:40|OKUL DERSİ 1|0,11:40|11:50|TENEFÜS|0,11:50|12:30|OKUL DERSİ 2|2,12:30|12:40|TENEFÜS|0,12:40|13:20|OKUL DERSİ 3|2,13:20|13:45|ARA VE ÖĞLE NAMAZI|1,13:45|14:30|ÖĞLE YEMEĞİ|0,14:30|15:10|OKUL DERSİ 4|0,15:10|15:20|TENEFÜS|1,15:20|16:00|OKUL DERSİ 5|2,16:00|16:10|TENEFÜS|0,16:10|16:50|OKUL DERSİ 6|1,16:50|17:00|TENEFÜS|0,17:00|17:40|OKUL DERSİ 7|1,17:40|18:00|ARA VE İKİNDİ NAMAZI|0,18:00|18:40|ETÜT 1|0,18:40|19:20|ETÜT 2|0,19:20|20:00|AKŞAM YEMEĞİ|0,20:15|21:05|ETKİNLİK 1|0,21:05|21:15|TENEFÜS|0,21:15|21:30|AKŞAM NAMAZI|0,21:30|22:20|ETKİNLİK 2|0,22:20|22:35|YATSI NAMAZI|1,23:00|00:00|MECBURİ İSTİRAHAT|1";
@@ -326,7 +331,7 @@ function renderCay() {
     document.getElementById('cayTable').innerHTML = html;
 }
 function renderKiraat() {
-    var bugunK = todayNum(KIRAAT_ANCHOR, 28);
+        var bugunK = tarihtenBul(KT);
     var h1 = '';
     for (var i = 0; i < imamData.length; i++) {
         var isToday = (i + 1 === bugunK);
@@ -376,6 +381,18 @@ function renderGece() {
     }
     html += '</tbody>';
     document.getElementById('geceTable').innerHTML = html;
+}
+    var EV="ALİHAN ÖZEN|9|-,FARUK SELİM ATACAN|9|-,OSMAN KENAN ÇİMENDAĞ|9|-,AHMET YASİN ŞAHİN|9|-,MEHMET EMRE ÜLKER|9|-,MEHMET HAMZA EREN|9|-,HİLMİ ENES BAYRAM|10|-,YUSUF KEREM ERTAŞ|10|-,HİLMİHAN KIRBIYIK|10|-,MUHİTTİN KILIÇ|10|-,MEHMET TURAN|10|-,YUSUF KEMAL YETİM|10|-,MUHAMMED ENES KINCAK|10|-,AHMET SELİM ERDEM|10|-,İSMAİL ÇOMAK|10|-,MEHMET EMRE OKYAY|10|-,MUSTAFA EMİR BEKİ|10|-,EYMEN AKİF UYAR|10|-,ABDÜLKADİR DÜZGÜN|11|-,AHMET BEDİRHAN ÖZCAN|11|-,AHMET ENES KURU|11|-,AHMET KEREM BAYRAKTAR|11|-,ARİFHAN İNAN|11|-,İHSAN BEDİR ŞENOL|11|-,İLHAN AHMET ÇAYIR|11|-,KEREM TALHA YILDIRIM|11|-,KEREM YAVUZ YILMAZ|11|-,MEHMET AKİF ÇAKIR|11|-,MEHMET HİLMİ ÇELEN|11|-,ÖMER FARUK CANBAZ|11|-,SENCER ÇELİKKANAT|11|-,TEVFİK TUNA ÇAKMAK|11|-,YUSUF GÜLCAN|11|-,MUHAMMED ENSAR AYDIN|11|-,HÜSEYİN EMİR AKKOÇ|11|-,BEHLÜL EDİP ÇAKIR|12|-,EMİN KEREM AKÇAY|12|-,İBRAHİM YAĞIZ YİĞEN|12|-,MEHMET ENES İNAN|12|-,MEHMET SELİM DEMİRCİ|12|-,MEHMET YILMAZ|12|-,OSMAN YEŞİLIRMAK|12|-,ÖMER YAĞIZ EMSEN|12|-,YUNUS KEREM ÖZDEMİR|12|-,AHMET FATİH ÖLMEZ|12|-";
+var evradData=[];
+EV.split(",").forEach(function(a){var p=a.split("|");evradData.push({isim:p[0],sinif:p[1],tarih:p[2]});});
+function renderEvrad(){
+    var h='<thead><tr><th>ADI SOYADI</th><th>SINIFI</th><th>TARİH</th></tr></thead><tbody>';
+    for(var i=0;i<evradData.length;i++){
+        var e=evradData[i];
+        h+='<tr><td class="bold-text">'+e.isim+'</td><td>'+e.sinif+'</td><td>'+(e.tarih==='-'?'':e.tarih)+'</td></tr>';
+    }
+    h+='</tbody>';
+    document.getElementById('evradTable').innerHTML=h;
 }
 function renderTemizlik() {
     var html = '';
@@ -443,44 +460,72 @@ if (yemekGrubu > 0 && yemekData[yemekGrubu - 1]) {
     yemek = uyeler.join(', ');
 }
 document.getElementById('infoYemek').textContent = yemek;
+        var evrad='-';
+    var d2=new Date();
+    var dd2=('0'+d2.getDate()).slice(-2);
+    var mm2=('0'+(d2.getMonth()+1)).slice(-2);
+    var bDM2=dd2+'.'+mm2;
+    for(var ei=0;ei<evradData.length;ei++){
+        var et=evradData[ei].tarih;
+        if(et && et!=='-' && et.substring(0,5)===bDM2){evrad=evradData[ei].isim;break;}
+    }
+    var evEl=document.getElementById('infoEvrad');
+    if(evEl){evEl.textContent=evrad;evEl.parentElement.style.display=(evrad==='-')?'none':'flex';}
     document.getElementById('infoProgram').textContent = aktifProgram;
-    var onceki='-';
-var currentMinutes=now.getHours()*60+now.getMinutes();
-var currentIndex=-1;
-for(var n=0;n<scheduleData.length;n++){
-    var item=scheduleData[n];
-    var sp=item.start.split(':');
-    var startMin=Number(sp[0])*60+Number(sp[1]);
+    onceki='-';
+currentMinutes=now.getHours()*60+now.getMinutes();
+currentIndex=-1;
+for(n=0;n<scheduleData.length;n++){
+    item=scheduleData[n];
+    sp=item.start.split(':');
+    startMin=Number(sp[0])*60+Number(sp[1]);
     if(currentMinutes>=startMin){currentIndex=n;}else{break;}
 }
 if(currentIndex>0){
-    var prevItem=scheduleData[currentIndex-1];
+    prevItem=scheduleData[currentIndex-1];
     onceki=prevItem.start+' - '+prevItem.title;
 } else if (currentIndex===0) {
-    var lastItem=scheduleData[scheduleData.length-1];
+    lastItem=scheduleData[scheduleData.length-1];
     onceki=lastItem.start+' - '+lastItem.title;
 }
 document.getElementById('infoOnceki').textContent=onceki;
-       var sonraki='-';
+       sonraki='-';
    if(currentIndex>=0 && currentIndex<scheduleData.length-1){
-       var nextItem=scheduleData[currentIndex+1];
+       nextItem=scheduleData[currentIndex+1];
        sonraki=nextItem.start+' - '+nextItem.title;
    } else if(currentIndex===scheduleData.length-1){
        sonraki=scheduleData[0].start+' - '+scheduleData[0].title;
    }
    document.getElementById('infoSonraki').textContent=sonraki;
+        // BOŞ VAZİFELERİ GİZLE
+    var gizle=['infoImam','infoMuezzin','infoCay','infoGece','infoNobet','infoYemek','infoEvrad'];
+    for(var gi=0;gi<gizle.length;gi++){
+        var el=document.getElementById(gizle[gi]);
+        if(el){el.parentElement.style.display=(el.textContent==='-'||el.textContent.trim()==='')?'none':'flex';}
+    }
+    // HAFTA SONU PROGRAM GİZLE (Cuma 15:00 - Pazar 20:30)
+    var sz=new Date();var gn=sz.getDay();var sa=sz.getHours();var da=sz.getMinutes();
+    var gizli=false;
+    if(gn===5&&sa>=15){gizli=true;}
+    if(gn===6){gizli=true;}
+    if(gn===0&&(sa<20||(sa===20&&da<30))){gizli=true;}
+    var ps=['infoOnceki','infoProgram','infoSonraki'];
+    for(var pi=0;pi<ps.length;pi++){
+        var pe=document.getElementById(ps[pi]);
+        if(pe){pe.parentElement.style.display=gizli?'none':'flex';}
+    }
 }
 function updateClock() {
-    var t = new Date().toLocaleTimeString('tr-TR');
-    var c1 = document.getElementById('clock1');
+    t = new Date().toLocaleTimeString('tr-TR');
+    c1 = document.getElementById('clock1');
     if (c1) c1.textContent = t;
-    var hc = document.getElementById('homeClock');
+    hc = document.getElementById('homeClock');
     if (hc) hc.textContent = t;
-    var ht = document.getElementById('homeTarih');
+    ht = document.getElementById('homeTarih');
     if (ht) {
-        var d = new Date();
-        var gunler = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
-        var aylar = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
+        d = new Date();
+        gunler = ['Pazar','Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi'];
+        aylar = ['Ocak','Şubat','Mart','Nisan','Mayıs','Haziran','Temmuz','Ağustos','Eylül','Ekim','Kasım','Aralık'];
         ht.textContent = d.getDate() + ' ' + aylar[d.getMonth()] + ' ' + d.getFullYear() + ', ' + gunler[d.getDay()];
     }
     if (new Date().getSeconds() === 0) { renderSchedule(); updateInfoCard(); programKontrol(); }
@@ -493,16 +538,16 @@ function closeScreen(id) {
     document.getElementById(id).classList.remove('active');
 }
    function showIntro() {
-    var intro = document.getElementById('introOverlay');
+    intro = document.getElementById('introOverlay');
     intro.classList.add('active');
     setTimeout(function() {
         intro.classList.remove('active');
     }, 1200);
 }
 // SWIPE İLE GERİ DÖN (SAĞA VE SOLA) - SADECE AÇIK EKRAN VARSA
-var touchStartX = 0;
-var touchStartY = 0;
-var isSwiping = false;
+touchStartX = 0;
+touchStartY = 0;
+isSwiping = false;
 
 document.addEventListener('touchstart', function(e) {
     touchStartX = e.changedTouches[0].screenX;
@@ -512,10 +557,10 @@ document.addEventListener('touchstart', function(e) {
 
 document.addEventListener('touchmove', function(e) {
     if (!isSwiping) return;
-    var touchCurrentX = e.changedTouches[0].screenX;
-    var touchCurrentY = e.changedTouches[0].screenY;
-    var diffX = Math.abs(touchCurrentX - touchStartX);
-    var diffY = Math.abs(touchCurrentY - touchStartY);
+    touchCurrentX = e.changedTouches[0].screenX;
+    touchCurrentY = e.changedTouches[0].screenY;
+    diffX = Math.abs(touchCurrentX - touchStartX);
+    diffY = Math.abs(touchCurrentY - touchStartY);
     
     // Eğer dikey kaydırma yataydan fazlaysa, swipe'i iptal et (scroll için)
     if (diffY > diffX) {
@@ -527,14 +572,14 @@ document.addEventListener('touchend', function(e) {
     if (!isSwiping) return;
     isSwiping = false;
     
-    var touchEndX = e.changedTouches[0].screenX;
-    var diff = touchEndX - touchStartX;
+    touchEndX = e.changedTouches[0].screenX;
+    diff = touchEndX - touchStartX;
     
     // Sadece açık ekran varsa swipe çalışsın
-    var screens = ['programScreen','yemekScreen','cayScreen','kiraatScreen','temizlikScreen','nobetScreen','geceScreen'];
-    var activeScreen = null;
+        screens = ['programScreen','yemekScreen','cayScreen','kiraatScreen','temizlikScreen','nobetScreen','geceScreen','evradScreen'];
+    activeScreen = null;
     
-    for (var i = 0; i < screens.length; i++) {
+    for (i = 0; i < screens.length; i++) {
         if (document.getElementById(screens[i]).classList.contains('active')) {
             activeScreen = screens[i];
             break;
@@ -548,7 +593,7 @@ document.addEventListener('touchend', function(e) {
     }
 }, {passive: false});
     // GELİŞMİŞ BİLDİRİM VE SES SİSTEMİ
-var sonBildirimSaati = '';
+sonBildirimSaati = '';
 
 function bildirimIzniAl() {
     if ('serviceWorker' in navigator) {
@@ -568,11 +613,11 @@ function bildirimIzniAl() {
 
    function sesCal() {
        try {
-           var ctx = new (window.AudioContext || window.webkitAudioContext)();
-           var notalar = [523.25, 659.25, 783.99];
+           ctx = new (window.AudioContext || window.webkitAudioContext)();
+           notalar = [523.25, 659.25, 783.99];
            notalar.forEach(function(freq, i) {
-               var osc = ctx.createOscillator();
-               var gain = ctx.createGain();
+               osc = ctx.createOscillator();
+               gain = ctx.createGain();
                osc.connect(gain);
                gain.connect(ctx.destination);
                osc.type = 'sine';
@@ -587,8 +632,8 @@ function bildirimIzniAl() {
    }
 
 function programKontrol() {
-    var simdi = new Date();
-    var saat = simdi.getHours().toString().padStart(2, '0');
+    simdi = new Date();
+    saat = simdi.getHours().toString().padStart(2, '0');
     var dakika = simdi.getMinutes().toString().padStart(2, '0');
     var anlikZaman = saat + ':' + dakika;
 
@@ -650,6 +695,7 @@ window.onload = function() {
     renderTemizlik();
     renderNobet();
     renderGece();
+        renderEvrad();
     updateInfoCard();
     setInterval(updateClock, 1000);
     updateClock();
