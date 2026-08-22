@@ -508,8 +508,8 @@ document.getElementById('infoOnceki').textContent=onceki;
     var gizli=false;
     if(gn===5&&sa>=15){gizli=true;}
     if(gn===6){gizli=true;}
-    if(gn===0&&(sa<20||(sa===20&&da<30))){gizli=true;}
-    var ps=['infoOnceki','infoProgram','infoSonraki'];
+        if(gn===0&&(sa<20||(sa===20&&da<45))){gizli=true;}
+        var ps=['infoOnceki','infoProgram','infoSonraki','infoGece','infoNobet'];
     for(var pi=0;pi<ps.length;pi++){
         var pe=document.getElementById(ps[pi]);
         if(pe){pe.parentElement.style.display=gizli?'none':'flex';}
